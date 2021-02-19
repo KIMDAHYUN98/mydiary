@@ -10,7 +10,8 @@ public class DiaryApp {
 	public void start() {
 		
 		//저장된 내용 읽어서 리스트에 담기
-		dao = new DiaryListDAO();	
+//		dao = new DiaryListDAO();
+		dao = new DiaryOracleDAO();
 		
 		int menunum;
 		
@@ -59,7 +60,7 @@ public class DiaryApp {
 		switch (menu) {
 		case 종료: end();	break;
 		case 추가: insert();	break;
-		case 수정: insert();	break;
+		case 수정: update();	break;
 		case 삭제: delete();	break;
 		case 전체조회:   selectAll(); break;
 		case 날짜로검색: selectDate(); break;
@@ -96,18 +97,30 @@ public class DiaryApp {
 	public void update() {
 		//to do : 수정
 		//날짜 입력
+		String wdate = "";
+		String contents = "";
+		System.out.println("수정할 날짜:");
+		wdate = StdInputUtil.readDate();
+		System.out.println("내용:");
+		contents = StdInputUtil.readMultiLine();
+		DiaryVO vo = new DiaryVO();
+		vo.setWdate(wdate);
+		vo.setContents(contents);
 		
-		//내용 입력
-		
-		//리스트에서 수정
-		System.out.println("수정");
+		dao.update(vo);
+		System.out.println(vo);
 	}
 
 	// 삭제
 	public void delete() {
 		//to do : 삭제
 		//날짜 입력
+		String wdate = "";
+		System.out.println("삭제할 날짜 : ");
+		wdate = StdInputUtil.readDate();
 		
+		dao.delete(wdate);
+		System.out.println(wdate);
 		//리스트에서 삭제
 		
 		System.out.println("삭제");
