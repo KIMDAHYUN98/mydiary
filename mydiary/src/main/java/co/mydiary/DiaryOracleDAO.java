@@ -89,15 +89,25 @@ public class DiaryOracleDAO implements DAO {
 	@Override
 	public DiaryVO selectDate(String date) {
 		// 날짜 조회
+		DiaryVO vo = new DiaryVO();
 		try {
-			
+			conn = JdbcUtil.connect();
+			String sql = "select wdate, contents from diary where wdate = ?";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, date);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				vo = new DiaryVO();
+				vo.setContents(rs.getString("contents"));
+				vo.setWdate(rs.getString("wdate"));
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.disconnect(conn);
 		}
 		
-		return null;
+		return vo;
 	}
 
 	@Override
@@ -109,10 +119,12 @@ public class DiaryOracleDAO implements DAO {
 			conn = JdbcUtil.connect();
 			String sql = "select wdate, contents from diary where contents like '%' || ? || '%'";
 			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, content);
 			rs = psmt.executeQuery();
 			while(rs.next()) {
 				vo = new DiaryVO();
-				vo.setContents(content);
+				vo.setContents(rs.getString("contents"));
+				vo.setWdate(rs.getString("wdate"));
 				list.add(vo);
 			}
 		} catch(Exception e) {

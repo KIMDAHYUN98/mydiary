@@ -122,24 +122,25 @@ public class DiaryApp {
 		dao.delete(wdate);
 		System.out.println(wdate);
 		//리스트에서 삭제
-		
 		System.out.println("삭제");
 	}
 
 	// 날짜검색
 	public void selectDate() {
-		System.out.println("날짜검색");
+		System.out.println("날짜검색 :");
 		String wdate = StdInputUtil.readDate();
 		DiaryVO vo = dao.selectDate(wdate);
-		print(vo); 
+//		print(vo);
+		System.out.println(vo);
 	}
 
 	// 내용검색
 	public void selectContent() {
-		System.out.println("내용검색");
+		System.out.println("내용검색 : ");
 		String contents = StdInputUtil.readMultiLine();
 		List<DiaryVO> list = dao.selectContent(contents);
 		list.stream().forEach(this::print);
+		System.out.println(list);
 	}
 
 	// 전체조회
